@@ -1,0 +1,103 @@
+# Ship Captain Crew Program
+# Leonard Lange
+# AKA 6-5-4-Hi
+
+# import random
+import random
+
+# set variables
+die_min = 1
+die_max = 6
+die_list = []
+count = 0
+die_left = 5
+ship_found = 0
+captain_found = 0
+crew_found = 0
+
+
+# Begin the dice rolls
+def roll_dice():
+    die = random.randint(die_min, die_max)
+    die_list.append(die)
+
+
+def first_roll():
+    for x in range(die_left):
+        x = roll_dice()
+    print(die_list)
+
+
+def ship():
+    global die_left, count, ship_found
+    if 6 in die_list:
+        die_list.remove(6)
+        print('ship has arrived')
+        die_left -= 1
+        ship_found = 1
+        captain()
+        print(die_list)
+    else:
+        print('ship is still at sea')
+        print('rolling again')
+        die_list.clear()
+        count += 1
+
+
+def captain():
+    global die_left, count, captain_found
+    if 5 in die_list:
+        die_list.remove(5)
+        print('captain is aboard')
+        die_left -= 1
+        captain_found = 1
+        crew()
+    else:
+        print('captain has not arrived')
+        print('rolling again')
+        die_list.clear()
+        count += 1
+
+def crew():
+    global die_left, count, crew_found
+    if 4 in die_list:
+        die_list.remove(4)
+        print('crew has been conscripted')
+        die_left -= 1
+        crew_found = 1
+        bounty()
+    else:
+        print('crew is asking for more money')
+        print('rolling again')
+        die_list.clear()
+        count += 1
+
+def bounty():
+    tot = die_list[0] + die_list[1]
+    print('total score is', tot)
+
+
+print('dice left', die_left)
+print('dice list', die_list)
+print('count', count)
+
+while count < 3:
+    first_roll()
+    if ship_found == 0:
+        ship()
+    elif captain_found == 0:
+        captain()
+    elif crew_found == 0:
+        crew()
+        break
+    elif count >= 3:
+        print('you have run out of rolls')
+    else:
+        print('reached end of count, need to fix')
+        break
+print('dice left', die_left)
+print('dice list', die_list)
+print('count', count)
+
+
+
