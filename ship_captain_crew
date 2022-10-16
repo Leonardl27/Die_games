@@ -14,7 +14,7 @@ die_left = 5
 ship_found = 0
 captain_found = 0
 crew_found = 0
-
+tot = 0
 
 # Begin the dice rolls
 def roll_dice():
@@ -29,15 +29,16 @@ def first_roll():
 
 
 def ship():
-    global die_left, count, ship_found
     if 6 in die_list:
+        global ship_found, die_left
+        ship_found = 1
         die_list.remove(6)
         print('ship has arrived')
         die_left -= 1
-        ship_found = 1
         captain()
         print(die_list)
     else:
+        global count
         print('ship is still at sea')
         print('rolling again')
         die_list.clear()
@@ -45,43 +46,45 @@ def ship():
 
 
 def captain():
-    global die_left, count, captain_found
     if 5 in die_list:
+        global captain_found, die_left
+        captain_found = 1
         die_list.remove(5)
         print('captain is aboard')
         die_left -= 1
-        captain_found = 1
         crew()
     else:
+        global count
         print('captain has not arrived')
         print('rolling again')
         die_list.clear()
         count += 1
 
+
 def crew():
-    global die_left, count, crew_found
     if 4 in die_list:
+        global crew_found, die_left
+        crew_found = 1
         die_list.remove(4)
         print('crew has been conscripted')
         die_left -= 1
-        crew_found = 1
         bounty()
     else:
+        global count
         print('crew is asking for more money')
         print('rolling again')
         die_list.clear()
         count += 1
 
+
 def bounty():
+    global tot
     tot = die_list[0] + die_list[1]
-    print('total score is', tot)
+    print('Congrats you have qualified!')
+    print('This is your total score', tot)
 
 
-print('dice left', die_left)
-print('dice list', die_list)
-print('count', count)
-
-while count < 3:
+while (count < 3 and tot == 0):
     first_roll()
     if ship_found == 0:
         ship()
@@ -89,15 +92,14 @@ while count < 3:
         captain()
     elif crew_found == 0:
         crew()
-        break
-    elif count >= 3:
-        print('you have run out of rolls')
     else:
-        print('reached end of count, need to fix')
-        break
-print('dice left', die_left)
-print('dice list', die_list)
-print('count', count)
-
-
-
+       break
+# Begin the roll
+#first_roll()
+#ship()
+if tot != 0:
+    pass
+else:
+    print('You did not qualify, you do not have a score.')
+# print('dice left', die_left)
+# print('dice list', die_list)
