@@ -1,0 +1,128 @@
+# Ship Captain Crew Program
+# Leonard Lange
+# AKA 6-5-4-Hi
+# Adjusted file to record results
+
+# import random
+import random
+
+# Set outer loop variables
+not_qualified = 0
+qualified = 0
+running_score = 0
+
+# Begin the dice rolls
+def roll_dice():
+    die = random.randint(die_min, die_max)
+    die_list.append(die)
+
+def first_roll():
+    for x in range(die_left):
+        x = roll_dice()
+    # print(die_list)
+
+def ship():
+    if 6 in die_list:
+        global ship_found, die_left
+        ship_found = 1
+        die_list.remove(6)
+        #print('ship has arrived')
+        die_left -= 1
+        captain()
+        #print(die_list)
+    else:
+        global count
+        #print('ship is still at sea')
+        #print('rolling again')
+        die_list.clear()
+        count += 1
+
+def captain():
+    if 5 in die_list:
+        global captain_found, die_left
+        captain_found = 1
+        die_list.remove(5)
+        #print('captain is aboard')
+        die_left -= 1
+        crew()
+    else:
+        global count
+        #print('captain has not arrived')
+        #print('rolling again')
+        die_list.clear()
+        count += 1
+
+def crew():
+    if 4 in die_list:
+        global crew_found, die_left
+        crew_found = 1
+        die_list.remove(4)
+        #print('crew has been conscripted')
+        die_left -= 1
+        bounty()
+    else:
+        global count
+        #print('crew is asking for more money')
+        #print('rolling again')
+        die_list.clear()
+        count += 1
+
+def bounty():
+    global tot
+    tot = die_list[0] + die_list[1]
+    #print('Congrats you have qualified!')
+    #print('This is your total score', tot)
+    #print(f'total is {tot}')
+
+# Set number of trial results
+trials = 10000
+
+# Outer loop
+while trials > 0:
+    # run Inner loop
+    # set variables for inner loop
+    die_min = 1
+    die_max = 6
+    die_list = []
+    count = 0
+    die_left = 5
+    ship_found = 0
+    captain_found = 0
+    crew_found = 0
+    tot = 0
+    trials -= 1
+    # inner loop
+    while (count < 3 and tot == 0):
+        first_roll()
+        if ship_found == 0:
+            ship()
+        elif captain_found == 0:
+            captain()
+        elif crew_found == 0:
+            crew()
+        else:
+           break
+
+    if tot != 0:
+        pass
+        #print(f'score recorded')
+    else:
+        pass
+        #print(f'  {tot} ')
+
+# Begin the process over again.
+    #print(type(tot))
+# print('dice left', die_left)
+# print('dice list', die_list)
+# record Inner loop results
+    if tot == 0:
+        not_qualified += 1
+
+    else:
+        #tot != 0:
+        qualified += 1
+        running_score += tot
+#print results
+print(f'not_qualified total {not_qualified}')
+print(f'qualified total {qualified}')
+print(f'average score is, {(running_score/qualified)}')
