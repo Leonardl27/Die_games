@@ -125,4 +125,4 @@ while trials > 0:
 #print results
 print(f'not_qualified total {not_qualified}')
 print(f'qualified total {qualified}')
-print(f'average score is, {(running_score/qualified)}')
+print(f'average score is, {running_score/qualified:.2f}')
